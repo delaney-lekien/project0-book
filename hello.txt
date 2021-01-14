@@ -1,0 +1,20 @@
+agnbajgf,agnbajgfawekjfhakegf awegfasjhdgf
+
+object FileUtil {
+
+  /**
+    * 
+    *
+    * @param filename
+    * @param sep // the seperator 
+    * @return // Text content of a file, or the empty string
+    */
+    def Get(filename: String, sep: String = " "): String = {
+
+        var openedFile : BufferedSource = null
+        try {
+            openedFile = Source.fromFile(filename)
+            openedFile.getLines().mkString(sep)
+        } finally {
+            if (openedFile != null) openedFile.close()
+        }
