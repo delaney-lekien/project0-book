@@ -42,14 +42,13 @@ class Cli {
             println(BookDao.getAll())
           }
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update") => {   
-            println(arg)
-            // Provide functionality here
+            updateSubMenu()
           }
            case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Add") => {   
             runAddBooksMenu()
           }
            case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Remove") => {   
-            println(arg)
+            runDeleteBookSubMenu()
           }
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Exit") => {   
             continueMenuLoop = false
@@ -68,18 +67,35 @@ class Cli {
      println("Thank you for using Buy-A-Book!")
   }
 
+  def updateSubMenu() : Unit = {
+    println("What value would you like to change?")
+    val updateInput1 = StdIn.readLine()
+    println("What would you like to change that value too?")
+    val updateInput2 = StdIn.readLine()
+    try {
+      if(BookDao.updateBook(updateInput2)) {
+      println(s"${updateInput1} has been changed too ${updateInput2}.")
+      }
+    } catch {
+      case eu : Exception => {
+        println("Unable to change field, please try again.")
+      }
+    }
+  }
+
+
   def runAddBooksMenu() : Unit = {
-    println("Input Title")
+    println("Input Title:")
     val titleInput = StdIn.readLine()
-    println("Input Author Name")
+    println("Input Author Name:")
     val authorInput = StdIn.readLine()
-    println("Enter the price")
+    println("Enter the Price:")
     val priceInput = StdIn.readLine()
-    println("Enter in ISBN")
+    println("Enter in ISBN:")
     val isbnInput = StdIn.readLine()
     try {
       if (BookDao.addBook(Book(0, titleInput, authorInput, priceInput.toDouble, isbnInput))) {
-        println("New book added.")
+        println("New book added!")
       }
     } catch {
       case e : Exception => {
@@ -88,5 +104,18 @@ class Cli {
     }
   }
 
-// create function for getting user input and storing it as new book.
+  def runDeleteBookSubMenu() : Unit = {
+    println("Enter the Title of the entry you would like to remove:")
+    val removeTitleInput = StdIn.readLine()
+    try {
+      if (BookDao.removeBook(removeTitleInput)) {
+        println(s"Book: ${removeTitleInput} removed.")
+      }
+    } catch {
+      case ex : Exception => {
+        println("Not able to remove book. Please insert a Title Name to remove. ")
+      }
+    }
+  }
+
 }

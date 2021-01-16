@@ -33,4 +33,23 @@ object BookDao {
   }
 
 
+  def removeBook(title: String) : Boolean = {
+    val conn = ConnectionUtil.getConnection()
+    Using.Manager { use => 
+      val deleteStatement = use(conn.prepareStatement("DELETE FROM book WHERE title = ?;"))
+      deleteStatement.setString(1, title)
+      deleteStatement.execute()
+      deleteStatement.getUpdateCount() > 0
+    }.getOrElse(false)
+  }
+
+  def updateBook(author: String) : Boolean = {
+    val conn = ConnectionUtil.getConnection()
+    Using.Manager { use =>
+      val updateStatement = use(conn.prepareStatement("UPDATE book SET author = ? WHERE author = 'Roux';"))
+      updateStatement.setString(1, author)
+      updateStatement.execute()
+      updateStatement.getUpdateCount() > 0
+    }.getOrElse(false)
+  }
 }
