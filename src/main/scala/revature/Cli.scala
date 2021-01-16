@@ -2,9 +2,8 @@ package revature
 
 import scala.io.StdIn
 import scala.util.matching.Regex
-import java.io.FileNotFoundException
-import revature.utils.ReadCSV
 import revature.dao.BookDao
+import revature.model.Book
 
 
 /**
@@ -22,7 +21,7 @@ class Cli {
   }
 
   def printOptions() : Unit = {
-      println("Commands avaliable:")
+      println("--Commands avaliable:--")
       println("1. Get avaliable book list: Get")
       println("2. Update a listing information: Update")
       println("3. Add a book: Add")
@@ -39,21 +38,15 @@ class Cli {
       val input = StdIn.readLine()
       input match {
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Get") => {   
-            try {
-              println("Avaliable Books:")
-              BookDao
-            } catch {
-                case fnfe: FileNotFoundException => println(s"Failed to find file ${fnfe.getMessage}")
-                // try to add in a loop to try again if you have time
-                // most likely changing this to read from Database instead of CSV
-            }
+            println("--Avaliable books for purchase:--")
+            println(BookDao.getAll())
           }
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update") => {   
             println(arg)
             // Provide functionality here
           }
            case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Add") => {   
-            println(arg)
+            runAddBooksMenu()
           }
            case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Remove") => {   
             println(arg)
@@ -75,4 +68,25 @@ class Cli {
      println("Thank you for using Buy-A-Book!")
   }
 
+  def runAddBooksMenu() : Unit = {
+    println("Input Title")
+    val titleInput = StdIn.readLine()
+    println("Input Author Name")
+    val authorInput = StdIn.readLine()
+    println("Enter the price")
+    val priceInput = StdIn.readLine()
+    println("Enter in ISBN")
+    val isbnInput = StdIn.readLine()
+    try {
+      if (BookDao.addBook(Book(0, titleInput, authorInput, priceInput.toDouble, isbnInput))) {
+        println("New book added.")
+      }
+    } catch {
+      case e : Exception => {
+        println("Please enter in correct input types. Please try again.")
+      }
+    }
+  }
+
+// create function for getting user input and storing it as new book.
 }
