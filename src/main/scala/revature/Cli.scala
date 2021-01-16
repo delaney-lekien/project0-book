@@ -4,6 +4,8 @@ import scala.io.StdIn
 import scala.util.matching.Regex
 import java.io.FileNotFoundException
 import revature.utils.ReadCSV
+import revature.dao.BookDao
+
 
 /**
   * A CLI that allows the user to interact with our application.
@@ -38,7 +40,8 @@ class Cli {
       input match {
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Get") => {   
             try {
-            println(ReadCSV.get())
+              println("Avaliable Books:")
+              BookDao
             } catch {
                 case fnfe: FileNotFoundException => println(s"Failed to find file ${fnfe.getMessage}")
                 // try to add in a loop to try again if you have time

@@ -5,15 +5,19 @@ import java.sql.DriverManager
 
 object ConnectionUtil {
 
+  var conn : Connection = null;
+
   def getConnection() : Connection = {
 
+    if (conn == null || conn.isClosed()) {
     classOf[org.postgresql.Driver].newInstance()
     
-    DriverManager.getConnection(
+    conn = DriverManager.getConnection(
       "jdbc:postgresql://localhost:5432/delaneylekien", 
       "delaneylekien", 
-      "Delgagal23$$")
-
+      "Delgagal23$$"
+      )
+    }
+    conn
   }
- 
 } 
