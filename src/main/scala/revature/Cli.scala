@@ -38,7 +38,7 @@ class Cli {
       val input = StdIn.readLine()
       input match {
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Get") => {   
-            println("--Books avaliable for purchase:--")
+            println("--Books available for purchase:--")
             printBooks()
           }
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update") => {   
@@ -73,13 +73,13 @@ class Cli {
   
   
   def updateSubMenu() : Unit = {
-    println("What value would you like to change?")
-    val updateInput1 = StdIn.readLine()
-    println("What would you like to change that value too?")
-    val updateInput2 = StdIn.readLine()
+    println("Enter in the value you want updated.")
+    val updateAuthor = StdIn.readLine()
+    println("Enter in Id number to update.")
+    val updateId : Int = StdIn.readInt()
     try {
-      if(BookDao.updateBook(updateInput2)) {
-      println(s"${updateInput1} has been changed too ${updateInput2}.")
+      if(BookDao.updateBook(updateAuthor, updateId)) {
+      println(s"Book #${updateId} has been updated with ${updateAuthor}.")
       }
     } catch {
       case eu : Exception => {
