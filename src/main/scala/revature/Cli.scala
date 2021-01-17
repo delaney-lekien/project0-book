@@ -38,8 +38,8 @@ class Cli {
       val input = StdIn.readLine()
       input match {
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Get") => {   
-            println("--Avaliable books for purchase:--")
-            println(BookDao.getAll())
+            println("--Books avaliable for purchase:--")
+            printBooks()
           }
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update") => {   
             updateSubMenu()
@@ -67,6 +67,11 @@ class Cli {
      println("Thank you for using Buy-A-Book!")
   }
 
+  def printBooks() : Unit = {
+    BookDao.getAll()
+  }
+  
+  
   def updateSubMenu() : Unit = {
     println("What value would you like to change?")
     val updateInput1 = StdIn.readLine()
