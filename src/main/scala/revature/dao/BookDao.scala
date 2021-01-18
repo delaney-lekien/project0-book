@@ -43,11 +43,33 @@ object BookDao {
     }.getOrElse(false)
   }
 
-  def updateBook(author: String, book_id: Int) : Boolean = {
+  def updateAuthor(author: String, book_id: Int) : Boolean = {
     val conn = ConnectionUtil.getConnection()
     Using.Manager { use =>
       var updateStatement = use(conn.prepareStatement("UPDATE book SET author = ? WHERE book_id = ?;"))
       updateStatement.setString(1, author)
+      updateStatement.setInt(2, book_id)
+      updateStatement.execute()
+      updateStatement.getUpdateCount() > 0
+    }.getOrElse(false)
+  }
+
+  def updateTitle(title: String, book_id: Int) : Boolean = {
+    val conn = ConnectionUtil.getConnection()
+    Using.Manager { use =>
+      var updateStatement = use(conn.prepareStatement("UPDATE book SET title = ? WHERE book_id = ?;"))
+      updateStatement.setString(1, title)
+      updateStatement.setInt(2, book_id)
+      updateStatement.execute()
+      updateStatement.getUpdateCount() > 0
+    }.getOrElse(false)
+  }
+
+  def updatePrice(price: Double, book_id: Int) : Boolean = {
+    val conn = ConnectionUtil.getConnection()
+    Using.Manager { use =>
+      var updateStatement = use(conn.prepareStatement("UPDATE book SET price = ? WHERE book_id = ?;"))
+      updateStatement.setDouble(1, price)
       updateStatement.setInt(2, book_id)
       updateStatement.execute()
       updateStatement.getUpdateCount() > 0

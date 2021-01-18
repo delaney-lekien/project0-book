@@ -4,6 +4,7 @@ import scala.io.StdIn
 import scala.util.matching.Regex
 import revature.dao.BookDao
 import revature.model.Book
+import java.lang.NumberFormatException
 
 
 /**
@@ -23,10 +24,12 @@ class Cli {
   def printOptions() : Unit = {
       println("--Commands avaliable:--")
       println("1. Get avaliable book list: Get")
-      println("2. Update a listing information: Update")
-      println("3. Add a book: Add")
-      println("4. Buy a book: Remove")
-      println("5. Exit application: Exit")
+      println("2. Update a book title: Update Title")
+      println("3. Update a book author: Update Author")
+      println("4. Update a book price: Update Price")
+      println("5. Add a book: Add")
+      println("6. Buy a book: Remove")
+      println("7. Exit application: Exit")
   }
 
   def menu() : Unit = { 
@@ -41,8 +44,17 @@ class Cli {
             println("--Books available for purchase:--")
             printBooks()
           }
-          case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update") => {   
-            updateSubMenu()
+            case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update")
+           && arg.equalsIgnoreCase("Title") => {   
+            updateSubMenuTitle()
+          }
+          case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update") 
+           && arg.equalsIgnoreCase("Author") => {   
+            updateSubMenuAuthor()
+          }
+            case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update")
+           && arg.equalsIgnoreCase("Price") => {   
+            updateSubMenuPrice()
           }
            case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Add") => {   
             runAddBooksMenu()
@@ -71,19 +83,50 @@ class Cli {
     BookDao.getAll()
   }
   
-  
-  def updateSubMenu() : Unit = {
-    println("Enter in the value you want updated.")
-    val updateAuthor = StdIn.readLine()
-    println("Enter in Id number to update.")
-    val updateId : Int = StdIn.readInt()
+  def updateSubMenuTitle() : Unit = {
+    println("Enter in the book title you want updated.")
+    val updateTitleName = StdIn.readLine()
+    println("Enter in corresponding Id number.")
+    val updateIdTitle : Int = StdIn.readInt()
     try {
-      if(BookDao.updateBook(updateAuthor, updateId)) {
-      println(s"Book #${updateId} has been updated with ${updateAuthor}.")
-      }
+      if(BookDao.updateTitle(updateTitleName, updateIdTitle)) {
+        println(s"Book #${updateIdTitle} has been updated with ${updateTitleName}")
+      } 
     } catch {
-      case eu : Exception => {
-        println("Unable to change field, please try again.")
+      case e : Exception => {
+        println("Exception Caught")
+      }
+    }
+  }
+
+  def updateSubMenuAuthor() : Unit = {
+    println("Enter in the author name you want updated.")
+    val updateAuthorName = StdIn.readLine()
+    println("Enter in corresponding Id number.")
+    val updateIdAuthor : Int = StdIn.readInt()
+    try {
+      if(BookDao.updateAuthor(updateAuthorName, updateIdAuthor)) {
+        println(s"Book #${updateIdAuthor} has been updated with ${updateAuthorName}")
+      } 
+    } catch {
+      case e : Exception => {
+        println("Exception Caught")
+      }
+    }
+  }
+
+   def updateSubMenuPrice() : Unit = {
+    println("Enter in the price you want updated.")
+    val updatePriceName : Double = StdIn.readDouble()
+    println("Enter in corresponding Id number.")
+    val updateIdPrice : Int = StdIn.readInt()
+    try {
+      if(BookDao.updatePrice(updatePriceName, updateIdPrice)) {
+        println(s"Book #${updateIdPrice} has been updated with ${updatePriceName}")
+      } 
+    } catch {
+      case e : Exception => {
+        println("Exception Caught")
       }
     }
   }
