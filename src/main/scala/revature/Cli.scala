@@ -87,7 +87,11 @@ class Cli {
     println("Enter in the book title you want updated.")
     val updateTitleName = StdIn.readLine()
     println("Enter in corresponding Id number.")
-    val updateIdTitle : Int = StdIn.readInt()
+    val updateIdTitle : Int = try {
+      StdIn.readInt()
+    } catch {
+      case ex : NumberFormatException => 9999
+    }
     try {
       if(BookDao.updateTitle(updateTitleName, updateIdTitle)) {
         println(s"Book #${updateIdTitle} has been updated with ${updateTitleName}")
@@ -103,7 +107,11 @@ class Cli {
     println("Enter in the author name you want updated.")
     val updateAuthorName = StdIn.readLine()
     println("Enter in corresponding Id number.")
-    val updateIdAuthor : Int = StdIn.readInt()
+    val updateIdAuthor : Int = try {
+      StdIn.readInt()
+    } catch {
+      case ex : NumberFormatException => 9999
+    }
     try {
       if(BookDao.updateAuthor(updateAuthorName, updateIdAuthor)) {
         println(s"Book #${updateIdAuthor} has been updated with ${updateAuthorName}")
@@ -119,7 +127,11 @@ class Cli {
     println("Enter in the price you want updated.")
     val updatePriceName : Double = StdIn.readDouble()
     println("Enter in corresponding Id number.")
-    val updateIdPrice : Int = StdIn.readInt()
+    val updateIdPrice : Int = try {
+      StdIn.readInt()
+    } catch {
+      case ex : NumberFormatException => 9999
+    }
     try {
       if(BookDao.updatePrice(updatePriceName, updateIdPrice)) {
         println(s"Book #${updateIdPrice} has been updated with ${updatePriceName}")
