@@ -5,6 +5,7 @@ import scala.util.matching.Regex
 import revature.dao.BookDao
 import revature.model.Book
 import java.lang.NumberFormatException
+import revature.ReadCSV
 
 
 /**
@@ -42,7 +43,7 @@ class Cli {
       input match {
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Get") => {   
             println("--Books available for purchase:--")
-            printBooks()
+            BookDao.getAll()
           }
             case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update")
            && arg.equalsIgnoreCase("Title") => {   
