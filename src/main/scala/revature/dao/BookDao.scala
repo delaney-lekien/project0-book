@@ -7,6 +7,14 @@ import scala.collection.mutable.ArrayBuffer
 
 object BookDao {
 
+  def importAll() : Unit = {
+    val conn = ConnectionUtil.getConnection()
+    Using.Manager { use => 
+      val importStatement = use(conn.prepareStatement("copy book from '/home/delaneylekien/project0/project0/BookLog.csv' delimiter ',' csv header ;"))
+      importStatement.execute()
+    }
+  }
+  
   def getAll() : Unit = {
     val conn = ConnectionUtil.getConnection()
     Using.Manager { use =>

@@ -25,12 +25,13 @@ class Cli {
   def printOptions() : Unit = {
       println("--Commands avaliable:--")
       println("1. Get avaliable book list: Get")
-      println("2. Update a book title: Update Title")
-      println("3. Update a book author: Update Author")
-      println("4. Update a book price: Update Price")
-      println("5. Add a book: Add")
-      println("6. Buy a book: Remove")
-      println("7. Exit application: Exit")
+      println("2. Import from CSV: Import")
+      println("3. Update a book title: Update Title")
+      println("4. Update a book author: Update Author")
+      println("5. Update a book price: Update Price")
+      println("6. Add a book: Add")
+      println("7. Buy a book: Remove")
+      println("8. Exit application: Exit")
   }
 
   def menu() : Unit = { 
@@ -41,9 +42,13 @@ class Cli {
 
       val input = StdIn.readLine()
       input match {
+          case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Import") => {   
+            importCSV()
+            println("Imported from BookLog.CSV")
+          }
           case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Get") => {   
             println("--Books available for purchase:--")
-            BookDao.getAll()
+            printBooks()
           }
             case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("Update")
            && arg.equalsIgnoreCase("Title") => {   
@@ -80,6 +85,10 @@ class Cli {
      println("Thank you for using Buy-A-Book!")
   }
 
+  def importCSV() : Unit = {
+    BookDao.importAll()
+  }
+  
   def printBooks() : Unit = {
     BookDao.getAll()
   }
